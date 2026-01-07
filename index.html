@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أستاذ أسامة مليحي - منصة تعليمية</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap');
+       
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+       
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+       
+        /* Loading Screen */
+        #loadingScreen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease;
+        }
+       
+        #loadingScreen.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+       
+        .loading-logo {
+            font-family: 'Scheherazade New', 'Amiri', serif;
+            font-size: 3.4rem;
+            color: #fff;
+            margin-bottom: 30px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            direction: rtl;
+            text-align: center;
+        }
+       
+        .loading-logo span {
+            display: inline-block;
+            opacity: 0;
+            animation: wordPop 0.8s ease forwards;
+        }
+       
+        .loading-subtitle {
+            font-size: 1.3rem;
+            color: #fff;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.6s forwards;
+            direction: rtl;
+        }
+       
+        .loading-credit {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease 2.8s forwards;
+        }
+       
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-top: 40px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 2s forwards, spin 1s linear 3s infinite;
+        }
+       
+        @keyframes wordPop {
+            0% {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+       
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+       
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+       
+        #mainApp {
+            display: none;
+        }
+       
+        #mainApp.show {
+            display: block;
+            animation: fadeInMain 0.5s ease;
+        }
+       
+        @keyframes fadeInMain {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+       
+        header {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+       
+        .logo {
+            font-family: 'Scheherazade New', 'Amiri', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2a5298;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+       
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+       
+        .credits {
+            font-size: 0.85rem;
+            color: #666;
+        }
+       
+        .role-selection {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+       
+        .role-title {
+            text-align: center;
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+       
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+       
+        .role-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+       
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+       
+        .role-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+       
+        .role-card h2 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+       
+        .role-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+       
+        .dashboard {
+            display: none;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+       
+        .dashboard.active {
+            display: block;
+        }
+       
+        .dashboard-header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+       
+        .back-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+       
+        .back-btn:hover {
+            background: #c0392b;
+        }
+       
+        .upload-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+       
+        .upload-section h2 {
+            color: #2a5298;
+            margin-bottom: 20px;
+        }
+       
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+       
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+       
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+        }
+       
+        .form-group input {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+       
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+       
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+       
+        .upload-btn:hover {
+            transform: scale(1.02);
+        }
+       
+        .upload-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+       
+        .lessons-list {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+       
+        .lessons-list h2 {
+            color: #2a5298;
+            margin-bottom: 20px;
+        }
+       
+        .lesson-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+       
+        .lesson-item:hover {
+            transform: translateX(-5px);
+            background: #e9ecef;
+        }
+       
+        .lesson-info h3 {
+            color: #2a5298;
+            margin-bottom: 5px;
+        }
+       
+        .lesson-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+       
+        .lesson-actions {
+            display: flex;
+            gap: 10px;
+        }
+       
+        .delete-btn, .download-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: background 0.3s ease;
+        }
+       
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+        }
+       
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+       
+        .download-btn {
+            background: #3498db;
+            color: white;
+        }
+       
+        .download-btn:hover {
+            background: #2980b9;
+        }
+       
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+       
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+           
+            .role-cards {
+                grid-template-columns: 1fr;
+            }
+           
+            .lesson-item {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="loading-logo" id="loadingLogo"></div>
+        <div class="loading-subtitle" id="loadingSubtitle"></div>
+        <div class="loading-credit">by MO Ahmed</div>
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon" onclick="teacherIconClick()" style="cursor: pointer;" title="Teacher Access">أ</div>
+                <span>أستاذ أسامة مليحي</span>
+            </div>
+            <div class="credits">by MO Ahmed</div>
+        </header>
+
+        <!-- Role Selection -->
+        <div id="roleSelection" class="role-selection">
+            <h1 class="role-title">منصة أستاذ أسامة مليحي التعليمية</h1>
+            <div class="role-cards">
+                <div class="role-card" onclick="selectRole('student')">
+                    <div class="role-icon">🎓</div>
+                    <h2>دخول الطلاب</h2>
+                    <p>عرض وتحميل الدروس والمواد التعليمية</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Login Modal -->
+        <div id="teacherLoginModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center;">
+            <div style="background: white; padding: 40px; border-radius: 15px; max-width: 400px; width: 90%;">
+                <h2 style="color: #2a5298; margin-bottom: 20px; text-align: center;">دخول المعلم</h2>
+                <form onsubmit="teacherLogin(event)" style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="form-group">
+                        <label>كلمة المرور</label>
+                        <input type="password" id="teacherPassword" required placeholder="أدخل كلمة المرور">
+                    </div>
+                    <button type="submit" class="upload-btn">دخول</button>
+                    <button type="button" class="back-btn" onclick="closeTeacherLogin()" style="margin-top: 10px;">إلغاء</button>
+                </form>
+                <p id="loginError" style="color: #e74c3c; margin-top: 15px; text-align: center; display: none;">كلمة المرور غير صحيحة!</p>
+            </div>
+        </div>
+
+        <!-- Teacher Dashboard -->
+        <div id="teacherDashboard" class="dashboard">
+            <div class="dashboard-header">
+                <h1>لوحة تحكم المعلم</h1>
+                <button class="back-btn" onclick="backToSelection()">رجوع</button>
+            </div>
+            <div class="upload-section">
+                <h2>رفع درس جديد</h2>
+                <form class="upload-form" onsubmit="uploadLesson(event)">
+                    <div class="form-group">
+                        <label>عنوان الدرس</label>
+                        <input type="text" id="lessonTitle" required placeholder="مثال: الفعل الماضي">
+                    </div>
+                    <div class="form-group">
+                        <label>وصف الدرس</label>
+                        <input type="text" id="lessonDesc" placeholder="وصف مختصر للدرس">
+                    </div>
+                    <div class="form-group">
+                        <label>ملف PDF</label>
+                        <input type="file" id="lessonFile" accept=".pdf" required>
+                    </div>
+                    <button type="submit" class="upload-btn" id="uploadBtn">رفع الدرس</button>
+                </form>
+            </div>
+            <div class="lessons-list">
+                <h2>الدروس المرفوعة</h2>
+                <div id="teacherLessonsList"></div>
+            </div>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="studentDashboard" class="dashboard">
+            <div class="dashboard-header">
+                <h1>دروس اللغة العربية</h1>
+                <button class="back-btn" onclick="backToSelection()">رجوع</button>
+            </div>
+            <div class="lessons-list">
+                <h2>جميع الدروس</h2>
+                <div id="studentLessonsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDaFzzC_iQMMevyvSJsXiBeTCcldm-_XkM",
+            authDomain: "arapy-fc9dd.firebaseapp.com",
+            projectId: "arapy-fc9dd",
+            storageBucket: "arapy-fc9dd.firebasestorage.app",
+            messagingSenderId: "87432641824",
+            appId: "1:87432641824:web:b687a3223c98e93f95ab45",
+            measurementId: "G-1XTSK4BQ4X"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        let lessons = [];
+        const TEACHER_PASSWORD = "osama2025";
+        let teacherClickCount = 0;
+        let teacherClickTimer;
+
+        window.selectRole = selectRole;
+        window.backToSelection = backToSelection;
+        window.teacherIconClick = teacherIconClick;
+        window.showTeacherLogin = showTeacherLogin;
+        window.closeTeacherLogin = closeTeacherLogin;
+        window.teacherLogin = teacherLogin;
+        window.uploadLesson = uploadLesson;
+        window.deleteLesson = deleteLesson;
+        window.downloadLesson = downloadLesson;
+
+        function animateWords(element, text, baseDelay = 0) {
+            const words = text.trim().split(/\s+/);
+            element.innerHTML = words
+                .map((word, i) => 
+                    `<span style="animation-delay: ${baseDelay + i * 0.25}s;">${word}</span>`
+                )
+                .join(' ');
+        }
+
+        async function loadLessons() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "lessons"));
+                lessons = [];
+                querySnapshot.forEach((doc) => {
+                    lessons.push({ id: doc.id, ...doc.data() });
+                });
+                lessons.sort((a, b) => b.timestamp - a.timestamp);
+            } catch (error) {
+                console.error("خطأ في تحميل الدروس:", error);
+            }
+        }
+
+        window.addEventListener('load', async () => {
+            const logo = document.getElementById('loadingLogo');
+            const subtitle = document.getElementById('loadingSubtitle');
+           
+            animateWords(logo, 'أستاذ  أسامة  مليحي', 0.4);
+            animateWords(subtitle, 'منصة تعليمية متميزة', 1.8);
+           
+            await loadLessons();
+           
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hide');
+                setTimeout(() => {
+                    document.getElementById('mainApp').classList.add('show');
+                }, 700);
+            }, 4800);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+                e.preventDefault();
+                showTeacherLogin();
+            }
+        });
+
+        function teacherIconClick() {
+            teacherClickCount++;
+            if (teacherClickCount === 1) {
+                teacherClickTimer = setTimeout(() => teacherClickCount = 0, 2000);
+            }
+            if (teacherClickCount === 3) {
+                clearTimeout(teacherClickTimer);
+                teacherClickCount = 0;
+                showTeacherLogin();
+            }
+        }
+
+        function showTeacherLogin() {
+            document.getElementById('teacherLoginModal').style.display = 'flex';
+            document.getElementById('teacherPassword').focus();
+        }
+
+        function closeTeacherLogin() {
+            document.getElementById('teacherLoginModal').style.display = 'none';
+            document.getElementById('teacherPassword').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function teacherLogin(e) {
+            e.preventDefault();
+            const password = document.getElementById('teacherPassword').value;
+            if (password === TEACHER_PASSWORD) {
+                closeTeacherLogin();
+                selectRole('teacher');
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function selectRole(role) {
+            document.getElementById('roleSelection').style.display = 'none';
+            if (role === 'teacher') {
+                document.getElementById('teacherDashboard').classList.add('active');
+                displayTeacherLessons();
+            } else {
+                document.getElementById('studentDashboard').classList.add('active');
+                displayStudentLessons();
+            }
+        }
+
+        function backToSelection() {
+            document.getElementById('teacherDashboard').classList.remove('active');
+            document.getElementById('studentDashboard').classList.remove('active');
+            document.getElementById('roleSelection').style.display = 'block';
+        }
+
+        async function uploadLesson(e) {
+            e.preventDefault();
+            const title = document.getElementById('lessonTitle').value;
+            const desc = document.getElementById('lessonDesc').value;
+            const file = document.getElementById('lessonFile').files[0];
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            if (!file || file.type !== 'application/pdf') {
+                alert('يرجى رفع ملف PDF فقط');
+                return;
+            }
+
+            try {
+                uploadBtn.disabled = true;
+                uploadBtn.textContent = 'جاري الرفع...';
+
+                const fileRef = ref(storage, `lessons/${Date.now()}_${file.name}`);
+                await uploadBytes(fileRef, file);
+                const fileURL = await getDownloadURL(fileRef);
+
+                await addDoc(collection(db, "lessons"), {
+                    title,
+                    description: desc,
+                    date: new Date().toLocaleDateString('ar-EG'),
+                    fileURL,
+                    fileName: file.name,
+                    filePath: fileRef.fullPath,
+                    timestamp: Date.now()
+                });
+
+                await loadLessons();
+                document.getElementById('lessonTitle').value = '';
+                document.getElementById('lessonDesc').value = '';
+                document.getElementById('lessonFile').value = '';
+                displayTeacherLessons();
+
+                alert('تم رفع الدرس بنجاح! ✅');
+            } catch (error) {
+                console.error("خطأ في رفع الدرس:", error);
+                alert('حدث خطأ أثناء رفع الدرس');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = 'رفع الدرس';
+            }
+        }
+
+        function displayTeacherLessons() {
+            const container = document.getElementById('teacherLessonsList');
+            if (lessons.length === 0) {
+                container.innerHTML = '<div class="empty-state">لا توجد دروس مرفوعة حتى الآن</div>';
+                return;
+            }
+
+            container.innerHTML = lessons.map(lesson => `
+                <div class="lesson-item">
+                    <div class="lesson-info">
+                        <h3>${lesson.title}</h3>
+                        <p>${lesson.description || 'لا يوجد وصف'}</p>
+                        <p style="font-size: 0.85rem; color: #999;">تاريخ الرفع: ${lesson.date}</p>
+                    </div>
+                    <div class="lesson-actions">
+                        <button class="download-btn" onclick="downloadLesson('${lesson.fileURL}', '${lesson.fileName}')">📥 تحميل</button>
+                        <button class="delete-btn" onclick="deleteLesson('${lesson.id}', '${lesson.filePath}')">🗑️ حذف</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayStudentLessons() {
+            const container = document.getElementById('studentLessonsList');
+            if (lessons.length === 0) {
+                container.innerHTML = '<div class="empty-state">لا توجد دروس متاحة حالياً</div>';
+                return;
+            }
+
+            container.innerHTML = lessons.map(lesson => `
+                <div class="lesson-item">
+                    <div class="lesson-info">
+                        <h3>${lesson.title}</h3>
+                        <p>${lesson.description || 'لا يوجد وصف'}</p>
+                        <p style="font-size: 0.85rem; color: #999;">تاريخ الرفع: ${lesson.date}</p>
+                    </div>
+                    <div class="lesson-actions">
+                        <button class="download-btn" onclick="downloadLesson('${lesson.fileURL}', '${lesson.fileName}')">📥 تحميل</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteLesson(lessonId, filePath) {
+            if (!confirm('هل أنت متأكد من حذف هذا الدرس؟')) return;
+
+            try {
+                const fileRef = ref(storage, filePath);
+                await deleteObject(fileRef);
+                await deleteDoc(doc(db, "lessons", lessonId));
+                await loadLessons();
+                displayTeacherLessons();
+                alert('تم حذف الدرس بنجاح ✅');
+            } catch (error) {
+                console.error("خطأ في الحذف:", error);
+                alert('حدث خطأ أثناء الحذف');
+            }
+        }
+
+        async function downloadLesson(fileURL, fileName) {
+            try {
+                const response = await fetch(fileURL);
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error("خطأ في التحميل:", error);
+                window.open(fileURL, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
