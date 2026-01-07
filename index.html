@@ -499,14 +499,15 @@
         import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
 
+        // ── الإعدادات الجديدة اللي بعتها ──
         const firebaseConfig = {
-            apiKey: "AIzaSyDaFzzC_iQMMevyvSJsXiBeTCcldm-_XkM",
-            authDomain: "arapy-fc9dd.firebaseapp.com",
-            projectId: "arapy-fc9dd",
-            storageBucket: "arapy-fc9dd.firebasestorage.app",
-            messagingSenderId: "87432641824",
-            appId: "1:87432641824:web:b687a3223c98e93f95ab45",
-            measurementId: "G-1XTSK4BQ4X"
+            apiKey: "AIzaSyAryWnbBrNCLnZG05YWMxJ67FxlxG35JPE",
+            authDomain: "arabic-5d9e8.firebaseapp.com",
+            projectId: "arabic-5d9e8",
+            storageBucket: "arabic-5d9e8.firebasestorage.app",
+            messagingSenderId: "436575213688",
+            appId: "1:436575213688:web:923ac67e843edf27cf358d",
+            measurementId: "G-Z72K0Q1G6K"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -514,10 +515,11 @@
         const storage = getStorage(app);
 
         let lessons = [];
-        const TEACHER_PASSWORD = "osama2025";
+        const TEACHER_PASSWORD = "osama2025"; // ← ممكن تغيره لأي كلمة مرور تانية
         let teacherClickCount = 0;
         let teacherClickTimer;
 
+        // Make functions global
         window.selectRole = selectRole;
         window.backToSelection = backToSelection;
         window.teacherIconClick = teacherIconClick;
@@ -532,7 +534,7 @@
             const words = text.trim().split(/\s+/);
             element.innerHTML = words
                 .map((word, i) => 
-                    `<span style="animation-delay: ${baseDelay + i * 0.25}s;">${word}</span>`
+                    `<span style="animation-delay: \( {baseDelay + i * 0.25}s;"> \){word}</span>`
                 )
                 .join(' ');
         }
@@ -554,7 +556,7 @@
             const logo = document.getElementById('loadingLogo');
             const subtitle = document.getElementById('loadingSubtitle');
            
-            animateWords(logo, 'أستاذ  أسامة  مليحي', 0.4);
+            animateWords(logo, 'أستاذ أسامة مليحي', 0.4);
             animateWords(subtitle, 'منصة تعليمية متميزة', 1.8);
            
             await loadLessons();
@@ -641,7 +643,7 @@
                 uploadBtn.disabled = true;
                 uploadBtn.textContent = 'جاري الرفع...';
 
-                const fileRef = ref(storage, `lessons/${Date.now()}_${file.name}`);
+                const fileRef = ref(storage, `lessons/\( {Date.now()}_ \){file.name}`);
                 await uploadBytes(fileRef, file);
                 const fileURL = await getDownloadURL(fileRef);
 
@@ -686,8 +688,8 @@
                         <p style="font-size: 0.85rem; color: #999;">تاريخ الرفع: ${lesson.date}</p>
                     </div>
                     <div class="lesson-actions">
-                        <button class="download-btn" onclick="downloadLesson('${lesson.fileURL}', '${lesson.fileName}')">📥 تحميل</button>
-                        <button class="delete-btn" onclick="deleteLesson('${lesson.id}', '${lesson.filePath}')">🗑️ حذف</button>
+                        <button class="download-btn" onclick="downloadLesson('\( {lesson.fileURL}', ' \){lesson.fileName}')">📥 تحميل</button>
+                        <button class="delete-btn" onclick="deleteLesson('\( {lesson.id}', ' \){lesson.filePath}')">🗑️ حذف</button>
                     </div>
                 </div>
             `).join('');
@@ -708,7 +710,7 @@
                         <p style="font-size: 0.85rem; color: #999;">تاريخ الرفع: ${lesson.date}</p>
                     </div>
                     <div class="lesson-actions">
-                        <button class="download-btn" onclick="downloadLesson('${lesson.fileURL}', '${lesson.fileName}')">📥 تحميل</button>
+                        <button class="download-btn" onclick="downloadLesson('\( {lesson.fileURL}', ' \){lesson.fileName}')">📥 تحميل</button>
                     </div>
                 </div>
             `).join('');
@@ -749,4 +751,4 @@
         }
     </script>
 </body>
-</html>
+    </html>
