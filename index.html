@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أستاذ أسامة مليحي - منصة تعليمية</title>
+    <title>أستاذ أسامة مليحي</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Scheherazade+New:wght@400;700&display=swap');
         
@@ -50,13 +50,6 @@
             animation: fadeInScale 1.5s ease forwards;
         }
         
-        .loading-subtitle {
-            font-size: 1.2rem;
-            color: #fff;
-            opacity: 0;
-            animation: fadeInScale 1.5s ease 0.5s forwards;
-        }
-        
         @keyframes fadeInScale {
             0% {
                 opacity: 0;
@@ -69,11 +62,50 @@
         }
         
         .loading-credit {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
             margin-top: 15px;
             opacity: 0;
-            animation: fadeIn 0.8s ease 3s forwards;
+            animation: fadeIn 0.8s ease 2s forwards;
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 3px;
+            direction: ltr;
+        }
+        
+        .loading-credit span {
+            display: inline-block;
+            animation: letterGlowWave 0.6s ease-in-out;
+            animation-fill-mode: forwards;
+        }
+        
+        .loading-credit span:nth-child(1) { animation-delay: 2.5s; }
+        .loading-credit span:nth-child(2) { animation-delay: 2.6s; }
+        .loading-credit span:nth-child(3) { animation-delay: 2.7s; }
+        .loading-credit span:nth-child(4) { animation-delay: 2.8s; }
+        .loading-credit span:nth-child(5) { animation-delay: 2.9s; }
+        .loading-credit span:nth-child(6) { animation-delay: 3.0s; }
+        .loading-credit span:nth-child(7) { animation-delay: 3.1s; }
+        .loading-credit span:nth-child(8) { animation-delay: 3.2s; }
+        .loading-credit span:nth-child(9) { animation-delay: 3.3s; }
+        .loading-credit span:nth-child(10) { animation-delay: 3.4s; }
+        .loading-credit span:nth-child(11) { animation-delay: 3.5s; }
+        .loading-credit span:nth-child(12) { animation-delay: 3.6s; }
+        .loading-credit span:nth-child(13) { animation-delay: 3.7s; }
+        
+        @keyframes letterGlowWave {
+            0% {
+                text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            }
+            50% {
+                text-shadow: 
+                    0 0 15px rgba(255,255,255,1),
+                    0 0 30px rgba(255,215,0,0.9),
+                    0 0 45px rgba(255,215,0,0.6);
+            }
+            100% {
+                text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            }
         }
         
         .loading-spinner {
@@ -84,17 +116,6 @@
             border-radius: 50%;
             margin-top: 30px;
             animation: fadeIn 0.8s ease 2s forwards, spin 1s linear 2s infinite;
-        }
-        
-        @keyframes letterPop {
-            0% { opacity: 0; transform: scale(0) rotateZ(-180deg); }
-            50% { transform: scale(1.3) rotateZ(10deg); }
-            100% { opacity: 1; transform: scale(1) rotateZ(0deg); }
-        }
-        
-        @keyframes letterSlide {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes fadeIn {
@@ -154,6 +175,7 @@
         .credits {
             font-size: 0.85rem;
             color: #666;
+            direction: ltr;
         }
         
         .role-selection {
@@ -266,7 +288,7 @@
             color: #333;
         }
         
-        .form-group input, .form-group textarea {
+        .form-group input, .form-group textarea, .form-group select {
             padding: 12px;
             border: 2px solid #ddd;
             border-radius: 8px;
@@ -279,7 +301,7 @@
             min-height: 80px;
         }
         
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -306,6 +328,37 @@
             cursor: not-allowed;
         }
         
+        .category-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .category-tab {
+            padding: 12px 30px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+        
+        .category-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .category-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
         .lessons-list {
             background: white;
             padding: 30px;
@@ -326,11 +379,48 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-right: 4px solid #667eea;
+        }
+        
+        .lesson-item.nahw {
+            border-right-color: #3498db;
+        }
+        
+        .lesson-item.adab {
+            border-right-color: #e74c3c;
+        }
+        
+        .lesson-item.balagha {
+            border-right-color: #2ecc71;
         }
         
         .lesson-info h3 {
             color: #2a5298;
             margin-bottom: 5px;
+        }
+        
+        .lesson-category {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .lesson-category.nahw {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .lesson-category.adab {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .lesson-category.balagha {
+            background: #e8f5e9;
+            color: #2e7d32;
         }
         
         .lesson-info p {
@@ -397,14 +487,22 @@
                 gap: 15px;
                 align-items: flex-start;
             }
+            
+            .category-tabs {
+                gap: 10px;
+            }
+            
+            .category-tab {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
     <div id="loadingScreen">
         <div class="loading-logo">أستاذ أسامة مليحي</div>
-        <div class="loading-subtitle">منصة تعليمية متميزة</div>
-        <div class="loading-credit">by MO Ahmed</div>
+        <div class="loading-credit">by <span>M</span><span>o</span><span>s</span><span>t</span><span>a</span><span>f</span><span>a</span> <span>A</span><span>h</span><span>m</span><span>e</span><span>d</span></div>
         <div class="loading-spinner"></div>
     </div>
 
@@ -414,17 +512,30 @@
                 <div class="logo-icon" onclick="teacherIconClick()">أ</div>
                 <span>أستاذ أسامة مليحي</span>
             </div>
-            <div class="credits">by MO Ahmed</div>
+            <div class="credits">by Mostafa Ahmed</div>
         </header>
 
         <div id="roleSelection" class="role-selection">
-            <h1 class="role-title">منصة أستاذ أسامة مليحي التعليمية</h1>
+            <h1 class="role-title">أستاذ أسامة مليحي - اللغة العربية</h1>
             <div class="role-cards">
-                <div class="role-card" onclick="selectRole('student')">
+                <div class="role-card" onclick="checkStudentName()">
                     <div class="role-icon">🎓</div>
                     <h2>دخول الطلاب</h2>
                     <p>عرض وتحميل الدروس والمواد التعليمية</p>
                 </div>
+            </div>
+        </div>
+        
+        <div id="studentNameModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center;">
+            <div style="background: white; padding: 40px; border-radius: 15px; max-width: 400px; width: 90%;">
+                <h2 style="color: #2a5298; margin-bottom: 20px; text-align: center;">مرحباً بك! 👋</h2>
+                <p style="text-align: center; margin-bottom: 20px; color: #666;">من فضلك أدخل اسمك للمتابعة</p>
+                <form onsubmit="saveStudentName(event)" style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="form-group">
+                        <input type="text" id="studentNameInput" required placeholder="اكتب اسمك هنا" style="text-align: center;">
+                    </div>
+                    <button type="submit" class="upload-btn">دخول</button>
+                </form>
             </div>
         </div>
         
@@ -464,6 +575,15 @@
                 
                 <form class="upload-form" onsubmit="addLesson(event)">
                     <div class="form-group">
+                        <label>الفرع</label>
+                        <select id="lessonCategory" required>
+                            <option value="">اختر الفرع</option>
+                            <option value="nahw">نحو 📘</option>
+                            <option value="adab">أدب 📕</option>
+                            <option value="balagha">بلاغة 📗</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>عنوان الدرس</label>
                         <input type="text" id="lessonTitle" required placeholder="مثال: الفعل الماضي">
                     </div>
@@ -482,18 +602,52 @@
 
             <div class="lessons-list">
                 <h2>الدروس المضافة</h2>
+                
+                <div class="category-tabs">
+                    <div class="category-tab active" onclick="filterTeacherLessons('all')">
+                        الكل
+                    </div>
+                    <div class="category-tab" onclick="filterTeacherLessons('nahw')">
+                        📘 نحو
+                    </div>
+                    <div class="category-tab" onclick="filterTeacherLessons('adab')">
+                        📕 أدب
+                    </div>
+                    <div class="category-tab" onclick="filterTeacherLessons('balagha')">
+                        📗 بلاغة
+                    </div>
+                </div>
+                
                 <div id="teacherLessonsList"></div>
+            </div>
+            
+            <div class="lessons-list" style="margin-top: 30px;">
+                <h2>الطلاب المسجلين 👥</h2>
+                <div id="studentsList"></div>
             </div>
         </div>
 
         <div id="studentDashboard" class="dashboard">
             <div class="dashboard-header">
-                <h1>دروس اللغة العربية</h1>
+                <h1 id="studentWelcome">دروس اللغة العربية</h1>
                 <button class="back-btn" onclick="backToSelection()">رجوع</button>
             </div>
 
             <div class="lessons-list">
                 <h2>جميع الدروس</h2>
+                
+                <div class="category-tabs">
+                    <div class="category-tab" onclick="filterStudentLessons('nahw')">
+                        📘 نحو
+                    </div>
+                    <div class="category-tab" onclick="filterStudentLessons('adab')">
+                        📕 أدب
+                    </div>
+                    <div class="category-tab" onclick="filterStudentLessons('balagha')">
+                        📗 بلاغة
+                    </div>
+                </div>
+                
                 <div id="studentLessonsList"></div>
             </div>
         </div>
@@ -501,7 +655,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAryWnbBrNCLnZG05YWMxJ67FxlxG35JPE",
@@ -517,9 +671,19 @@
         const db = getFirestore(app);
 
         let lessons = [];
+        let students = [];
+        let currentStudentName = '';
+        let currentTeacherFilter = 'all';
+        let currentStudentFilter = 'nahw';
         const TEACHER_PASSWORD = "osama2025";
         let clickCount = 0;
         let clickTimer;
+
+        const categoryNames = {
+            nahw: 'نحو',
+            adab: 'أدب',
+            balagha: 'بلاغة'
+        };
 
         function convertLink(link) {
             let id = null;
@@ -527,8 +691,8 @@
             else if (link.includes('id=')) id = link.split('id=')[1].split('&')[0];
             
             if (id) return {
-                view: `https://drive.google.com/file/d/${id}/preview`,
-                download: `https://drive.google.com/uc?export=download&id=${id}`
+                view: 'https://drive.google.com/file/d/' + id + '/preview',
+                download: 'https://drive.google.com/uc?export=download&id=' + id
             };
             return { view: link, download: link };
         }
@@ -537,16 +701,72 @@
             try {
                 const snap = await getDocs(collection(db, "lessons"));
                 lessons = [];
-                snap.forEach(d => lessons.push({ id: d.id, ...d.data() }));
-                lessons.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                snap.forEach(function(d) {
+                    const data = d.data();
+                    data.id = d.id;
+                    lessons.push(data);
+                });
+                lessons.sort(function(a, b) {
+                    return (b.timestamp || 0) - (a.timestamp || 0);
+                });
             } catch (e) {
                 console.error(e);
             }
         }
 
+        async function loadStudents() {
+            try {
+                const snap = await getDocs(collection(db, "students"));
+                students = [];
+                snap.forEach(function(d) {
+                    const data = d.data();
+                    data.id = d.id;
+                    students.push(data);
+                });
+                students.sort(function(a, b) {
+                    return (b.timestamp || 0) - (a.timestamp || 0);
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        window.checkStudentName = function() {
+            const savedName = localStorage.getItem('studentName');
+            if (savedName) {
+                currentStudentName = savedName;
+                window.selectRole('student');
+            } else {
+                document.getElementById('studentNameModal').style.display = 'flex';
+            }
+        };
+
+        window.saveStudentName = async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('studentNameInput').value.trim();
+            if (name) {
+                currentStudentName = name;
+                localStorage.setItem('studentName', name);
+                
+                try {
+                    await setDoc(doc(db, "students", Date.now().toString()), {
+                        name: name,
+                        timestamp: Date.now(),
+                        lastVisit: new Date().toLocaleDateString('ar-EG')
+                    });
+                } catch (e) {
+                    console.error(e);
+                }
+                
+                document.getElementById('studentNameModal').style.display = 'none';
+                document.getElementById('studentNameInput').value = '';
+                window.selectRole('student');
+            }
+        };
+
         window.teacherIconClick = function() {
             clickCount++;
-            if (clickCount === 1) clickTimer = setTimeout(() => clickCount = 0, 2000);
+            if (clickCount === 1) clickTimer = setTimeout(function() { clickCount = 0; }, 2000);
             if (clickCount === 3) {
                 clearTimeout(clickTimer);
                 clickCount = 0;
@@ -575,8 +795,16 @@
             if (role === 'teacher') {
                 document.getElementById('teacherDashboard').classList.add('active');
                 displayTeacher();
+                displayStudentsList();
             } else {
                 document.getElementById('studentDashboard').classList.add('active');
+                document.getElementById('studentWelcome').textContent = 'مرحباً ' + currentStudentName + ' 🌟';
+                currentStudentFilter = 'nahw';
+                const tabs = document.querySelectorAll('#studentDashboard .category-tab');
+                tabs.forEach(function(tab) {
+                    tab.classList.remove('active');
+                });
+                tabs[0].classList.add('active');
                 displayStudent();
             }
         };
@@ -585,11 +813,38 @@
             document.getElementById('teacherDashboard').classList.remove('active');
             document.getElementById('studentDashboard').classList.remove('active');
             document.getElementById('roleSelection').style.display = 'block';
+            currentTeacherFilter = 'all';
+            currentStudentFilter = 'nahw';
+        };
+
+        window.filterTeacherLessons = function(category) {
+            currentTeacherFilter = category;
+            
+            const tabs = document.querySelectorAll('#teacherDashboard .category-tab');
+            tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayTeacher();
+        };
+
+        window.filterStudentLessons = function(category) {
+            currentStudentFilter = category;
+            
+            const tabs = document.querySelectorAll('#studentDashboard .category-tab');
+            tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayStudent();
         };
 
         window.addLesson = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('addBtn');
+            const category = document.getElementById('lessonCategory').value;
             const title = document.getElementById('lessonTitle').value;
             const desc = document.getElementById('lessonDesc').value;
             const link = document.getElementById('driveLink').value;
@@ -600,13 +855,18 @@
                 
                 const links = convertLink(link);
                 await addDoc(collection(db, "lessons"), {
-                    title, description: desc,
+                    category: category,
+                    title: title, 
+                    description: desc,
                     date: new Date().toLocaleDateString('ar-EG'),
-                    driveLink: link, viewLink: links.view,
-                    downloadLink: links.download, timestamp: Date.now()
+                    driveLink: link, 
+                    viewLink: links.view,
+                    downloadLink: links.download, 
+                    timestamp: Date.now()
                 });
                 
                 await loadLessons();
+                document.getElementById('lessonCategory').value = '';
                 document.getElementById('lessonTitle').value = '';
                 document.getElementById('lessonDesc').value = '';
                 document.getElementById('driveLink').value = '';
@@ -622,45 +882,79 @@
 
         function displayTeacher() {
             const cont = document.getElementById('teacherLessonsList');
-            if (lessons.length === 0) {
-                cont.innerHTML = '<div class="empty-state">لا توجد دروس</div>';
+            const filteredLessons = currentTeacherFilter === 'all' 
+                ? lessons 
+                : lessons.filter(function(l) { return l.category === currentTeacherFilter; });
+            
+            if (filteredLessons.length === 0) {
+                cont.innerHTML = '<div class="empty-state">لا توجد دروس في هذا الفرع</div>';
                 return;
             }
-            cont.innerHTML = lessons.map(l => `
-                <div class="lesson-item">
-                    <div class="lesson-info">
-                        <h3>${l.title}</h3>
-                        <p>${l.description || 'لا يوجد وصف'}</p>
-                        <p style="font-size: 0.85rem; color: #999;">${l.date}</p>
-                    </div>
-                    <div class="lesson-actions">
-                        <button class="view-btn" onclick="viewLesson('${l.viewLink}')">👁️ عرض</button>
-                        <button class="download-btn" onclick="downloadLesson('${l.downloadLink}')">📥 تحميل</button>
-                        <button class="delete-btn" onclick="deleteLesson('${l.id}')">🗑️ حذف</button>
-                    </div>
-                </div>
-            `).join('');
+            
+            let html = '';
+            filteredLessons.forEach(function(l) {
+                html += '<div class="lesson-item ' + l.category + '">';
+                html += '<div class="lesson-info">';
+                html += '<h3>' + l.title + '</h3>';
+                html += '<span class="lesson-category ' + l.category + '">' + categoryNames[l.category] + '</span>';
+                html += '<p>' + (l.description || 'لا يوجد وصف') + '</p>';
+                html += '<p style="font-size: 0.85rem; color: #999;">' + l.date + '</p>';
+                html += '</div>';
+                html += '<div class="lesson-actions">';
+                html += '<button class="view-btn" onclick="viewLesson(\'' + l.viewLink + '\')">👁️ عرض</button>';
+                html += '<button class="download-btn" onclick="downloadLesson(\'' + l.downloadLink + '\')">📥 تحميل</button>';
+                html += '<button class="delete-btn" onclick="deleteLesson(\'' + l.id + '\')">🗑️ حذف</button>';
+                html += '</div>';
+                html += '</div>';
+            });
+            cont.innerHTML = html;
         }
 
         function displayStudent() {
             const cont = document.getElementById('studentLessonsList');
-            if (lessons.length === 0) {
-                cont.innerHTML = '<div class="empty-state">لا توجد دروس</div>';
+            const filteredLessons = lessons.filter(function(l) { return l.category === currentStudentFilter; });
+            
+            if (filteredLessons.length === 0) {
+                cont.innerHTML = '<div class="empty-state">لا توجد دروس في هذا الفرع</div>';
                 return;
             }
-            cont.innerHTML = lessons.map(l => `
-                <div class="lesson-item">
-                    <div class="lesson-info">
-                        <h3>${l.title}</h3>
-                        <p>${l.description || 'لا يوجد وصف'}</p>
-                        <p style="font-size: 0.85rem; color: #999;">${l.date}</p>
-                    </div>
-                    <div class="lesson-actions">
-                        <button class="view-btn" onclick="viewLesson('${l.viewLink}')">👁️ عرض</button>
-                        <button class="download-btn" onclick="downloadLesson('${l.downloadLink}')">📥 تحميل</button>
-                    </div>
-                </div>
-            `).join('');
+            
+            let html = '';
+            filteredLessons.forEach(function(l) {
+                html += '<div class="lesson-item ' + l.category + '">';
+                html += '<div class="lesson-info">';
+                html += '<h3>' + l.title + '</h3>';
+                html += '<span class="lesson-category ' + l.category + '">' + categoryNames[l.category] + '</span>';
+                html += '<p>' + (l.description || 'لا يوجد وصف') + '</p>';
+                html += '<p style="font-size: 0.85rem; color: #999;">' + l.date + '</p>';
+                html += '</div>';
+                html += '<div class="lesson-actions">';
+                html += '<button class="view-btn" onclick="viewLesson(\'' + l.viewLink + '\')">👁️ عرض</button>';
+                html += '<button class="download-btn" onclick="downloadLesson(\'' + l.downloadLink + '\')">📥 تحميل</button>';
+                html += '</div>';
+                html += '</div>';
+            });
+            cont.innerHTML = html;
+        }
+
+        function displayStudentsList() {
+            const cont = document.getElementById('studentsList');
+            
+            if (students.length === 0) {
+                cont.innerHTML = '<div class="empty-state">لا يوجد طلاب مسجلين</div>';
+                return;
+            }
+            
+            let html = '';
+            students.forEach(function(s, index) {
+                html += '<div class="lesson-item" style="border-right-color: #9b59b6;">';
+                html += '<div class="lesson-info">';
+                html += '<h3>' + (index + 1) + '. ' + s.name + '</h3>';
+                html += '<p style="font-size: 0.85rem; color: #999;">آخر زيارة: ' + s.lastVisit + '</p>';
+                html += '</div>';
+                html += '</div>';
+            });
+            cont.innerHTML = html;
         }
 
         window.deleteLesson = async function(id) {
@@ -684,15 +978,16 @@
             window.open(link, '_blank');
         };
 
-        window.addEventListener('load', async () => {
+        window.addEventListener('load', async function() {
             await loadLessons();
-            setTimeout(() => {
+            await loadStudents();
+            setTimeout(function() {
                 document.getElementById('loadingScreen').classList.add('hide');
                 document.getElementById('mainApp').classList.add('show');
             }, 3000);
         });
 
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.shiftKey && e.key === 'T') {
                 e.preventDefault();
                 document.getElementById('teacherLoginModal').style.display = 'flex';
